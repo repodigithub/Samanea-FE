@@ -1,10 +1,10 @@
 <template>
-  <div class="row window-height auth">
-    <img src="~assets/img/auth.png" alt="image-auth" srcset="" class="col-4" style="object-fit: fill;max-height: 100vh;">
+  <div class="row auth">
+    <img src="~assets/img/auth.png" alt="image-auth" srcset="" class="col-4" style="object-fit: fill;">
     <div class="col-8 bg-main-background content">
       <div class="main flex justify-center items-center column">
         <img src="~assets/img/logo.png" alt="image-logo">
-        <q-card class="normal-shadow border-radius-8 auth-card" style="min-width:380px;">
+        <q-card class="normal-shadow border-radius-8 auth-card" style="min-width:380px;max-width:580px;">
           <q-card-section class="text-center">
             <div class="text-h5 text-bold">{{$route.name.includes('login') ? 'Masuk' : 'Daftar'}}</div>
             <div class="text-subtitle2 text-weight-regular tx-soft-black">{{$route.name.includes('login') ?'Belum': 'Sudah'}} punya akun? 
@@ -20,7 +20,7 @@
           </q-card-section>
         </q-card>
       </div>
-      <div class="footer" style="color:#7B7B7B;margin-left:32px;">
+      <div class="footer q-pt-lg" style="color:#7B7B7B;margin-left:32px;">
         <span>© All Rights Reserved PT. Investasi Semesta Indonesia 2022</span>
       </div>
     </div>
