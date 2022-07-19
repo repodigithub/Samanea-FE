@@ -1,1 +1,27 @@
 // app global css in SCSS form
+
+.bg-main-background { //main-background-color
+  background: $main-background;
+}
+
+.auth > .content {
+  display: grid;
+  grid-template-rows: auto 40px;
+}
+
+.normal-shadow {
+  box-shadow: 0px 5px 20px rgba(35, 35, 35, 0.05) !important;
+}
+
+.border-radius-8 {
+  border-radius: 8px;
+}
+
+.auth-card {
+  margin-top:64px;
+}
+
+.tx-soft-black {
+  color:$soft-black;
+}
+
