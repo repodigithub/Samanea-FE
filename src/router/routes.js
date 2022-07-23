@@ -2,9 +2,10 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/DashboardLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      { path: '',name:'Dashboard', component: () => import('pages/IndexPage.vue') },
+      { path: '/user-management',name:'User Management', component: () => import('pages/UserManagement/IndexPage.vue') },
     ]
   },
   {

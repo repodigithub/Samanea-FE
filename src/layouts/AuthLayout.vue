@@ -1,9 +1,9 @@
 <template>
-  <div class="row auth">
+  <div class="row auth" style="min-height:100vh;">
     <img src="~assets/img/auth.png" alt="image-auth" srcset="" class="col-4" style="object-fit: fill;">
     <div class="col-8 bg-main-background content">
       <div class="main flex justify-center items-center column">
-        <img src="~assets/img/logo.png" alt="image-logo">
+        <img src="~assets/img/logo.png" alt="image-logo" class="q-mt-md">
         <q-card class="normal-shadow border-radius-8 auth-card" style="min-width:380px;max-width:580px;">
           <q-card-section class="text-center">
             <div class="text-h5 text-bold">{{$route.name.includes('login') ? 'Masuk' : 'Daftar'}}</div>

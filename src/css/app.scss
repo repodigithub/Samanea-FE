@@ -25,3 +25,38 @@
   color:$soft-black;
 }
 
+.dashboard-background {
+  background: #F5F7F8;
+}
+
+.tx-main-dark-primary {
+  color:$main-dark-primary;
+}
+
+.bg-soft-blue {
+  background: $soft-blue;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+.tx-softer-brown{
+  color:$softer-brown;
+}
+.bg-softer-brown{
+  background: $softer-brown;
+}
+
+.my-sticky-header-table {
+  thead  tr th{
+      background-color:$softer-brown;
+  }
+  th{
+      color: black;
+  }
+}
+
+.bg-soft-red {
+  background:$soft-red;
+}
+
