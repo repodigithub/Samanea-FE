@@ -40,7 +40,9 @@
           <q-input v-model="formData.telphone" dense outlined type="text"
             lazy-rules
             hide-bottom-space
-            
+            :rules="[
+            (val) => (val && val.length > 0) || 'No Telpon is required'
+            ]"
             placeholder="Isi no telpon disini"
             />
         </div>
@@ -96,7 +98,8 @@
         <div class="col-6" v-if="formData.level.includes('sales')">
           <SelectDropdown 
           url="auth/register/teamleader" 
-          v-model:selected="formData.team_leader"
+          v-model:selected="teamleader"
+          @onUpdatedSelected="onTeamLeaderSelected"
           placeHold="Select Team Leader"
           >
             <template v-slot:labelSelect>
@@ -107,7 +110,8 @@
         <div class="col-6" v-if="['sales','team_leader'].indexOf(formData.level) >= 0">
           <SelectDropdown 
           url="auth/register/supervisor" 
-          v-model:selected="formData.supervisor"
+          v-model:selected="supervisor"
+          @onUpdatedSelected="onSupervisorSelected"
           placeHold="Select Supervisor"
           v-if="formData.level.includes('team_leader')"
           >
@@ -115,9 +119,9 @@
               <div class="text-subtitle2 text-bold tx-soft-black">Supervisor*</div>
             </template>
           </SelectDropdown>
-          <div v-else>
+          <div v-if="teamleader && formData.level.includes('sales')">
             <div class="text-subtitle2 text-bold tx-soft-black">Supervisor*</div>
-            <q-input v-model="formData.email" dense outlined type="text"
+            <q-input v-model="namesupervisor" dense outlined type="text"
             hide-bottom-space
             placeholder="Supervisor"
             disable 
@@ -144,7 +148,7 @@
               <q-avatar size="100px" font-size="80px" color="positive" text-color="white" icon="done" />
           </div>
           <div class="blackown col-12 text-bold q-mb-md" style="font-size:20px;">Proses Pendaftaran Telah Diterima</div>
-          <span class="q-ml-sm col-8 grey1" style="margin-bottom:30px;">Pendaftaran Anda sedang diproses,mohon untuk menunggu konfirmasi dari approver</span>
+          <span class="q-ml-sm col-12 grey1" style="margin-bottom:30px;">Pendaftaran Anda sedang diproses,mohon untuk menunggu konfirmasi dari approver</span>
         </div>
       </template>
     </BaseDialog>
@@ -154,37 +158,37 @@
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref,watch } from 'vue'
 import { generalMethods } from 'src/methods/generalMethods'
 import SelectDropdown from 'src/components/SelectDropdown.vue'
 import BaseDialog from 'src/components/BaseDialog.vue'
-  const formData = ref({
-    email :'supervisor3@localhost.com',
-    password: 'password',
-    password_confirmation:'password',
-    fullname:'password',
-    telphone:'08123546789',
-    level:'supervisor',
-    supervisor:null,
-    team_leader:null
-  })
-  const visibility = ref(true)
-  const visibility2 = ref(true)
-  const optionLevel = ref([
-    { label : 'Sales',value : 'sales'},
-    { label : 'Team Leader',value : 'team_leader'},
-    { label : 'Supervisor',value : 'supervisor'},
-    { label : 'Manager',value : 'manager'}
-  ])
+import { formRegister } from 'src/methods/formRegister'
+const { formData,visibility,visibility2,optionLevel,teamleader,
+    supervisor,
+    namesupervisor,
+    onTeamLeaderSelected,
+    onSupervisorSelected,form,error } = formRegister()
 
-  const error = ref(null)
-  const form = ref('')
-  const { showLoading,hideLoading,postData } = generalMethods()
+  const { showLoading,hideLoading,postData,getData } = generalMethods()
   const confirm = ref(false)
+
   function onSave() {
     form.value.validate()
     .then(valid=>{
       if(valid){
+        if(formData.value.level.includes('sales')){
+          if(!formData.value.team_leader) { 
+            error.value = {
+              auth : {teamleader: "Field Team Leader is Required."}
+            }
+          }
+        }else if(formData.value.level.includes('team_leader')) {
+          if(!formData.value.supervisor) { 
+            error.value = {
+              auth : {teamleader: "Field Supervisor is Required."}
+            }
+          }
+        }else {
           showLoading()
           postData('auth/register',formData.value,false)
           .then(()=>{
@@ -197,6 +201,7 @@ import BaseDialog from 'src/components/BaseDialog.vue'
                   auth : `${Object.values(err.response.data.meta.message)}`
               }
           })
+        }
       }
     })
   }

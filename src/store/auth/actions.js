@@ -11,7 +11,6 @@ export function login(context,payload) {
 export function logout(context){
     this.$router.push('/login')
     context.commit('setLogout')
-    context.commit('changeRole','Loading...')
 }
 
 export function forgot(context,payload){

@@ -85,7 +85,7 @@ import { useStore } from 'vuex'
           .catch(err=>{
               hideLoading()
               error.value = {
-                  auth : `${err.response.data.meta.message}`
+                  auth : `${err.response?.data?.meta?.message}`
               }
               grecaptcha.reset()
           })

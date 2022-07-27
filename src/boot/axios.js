@@ -9,7 +9,7 @@ import axios from 'axios'
 // for each client)
 const api = axios.create({ baseURL: process.env.BASE_URL })
 
-export default boot(({ app }) => {
+export default boot(({ app,store,urlPath}) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
   app.config.globalProperties.recaptchasitekey = process.env.RECAPTCHA
   app.config.globalProperties.$axios = axios
@@ -19,6 +19,14 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
+  api.interceptors.response.use(response =>{
+    return response
+  },error =>{
+    if(error.response.status === 401 && !urlPath.startsWith('/login')){
+        store.dispatch('auth/logout')
+    }
+    return Promise.reject(error)
+  })
 })
 
 export { api }

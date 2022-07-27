@@ -17,11 +17,11 @@ const menus = ref([
   //       {title: 'Import Leads'},
   //     ]
   // },
-  // {
-  //     title:'Sales Management',
-  //     icon: 'salesmanagement',
-  //     submenu:false
-  // },
+  {
+      title:'Target Sales',
+      icon: 'salesmanagement',
+      submenu:false
+  },
   // {
   //   title:'Leads Database',
   //   icon: 'leadsdatabase',
@@ -32,11 +32,11 @@ const menus = ref([
   //   icon: 'campaignmonitoring',
   //   submenu:false
   // },
-  // {
-  //   title:'Property Management',
-  //   icon: 'propertymanagement',
-  //   submenu:false
-  // },
+  {
+    title:'Property Management',
+    icon: 'propertymanagement',
+    submenu:false
+  },
   // {
   //   title:'Reporting',
   //   icon: 'reporting',

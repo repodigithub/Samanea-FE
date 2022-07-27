@@ -6,7 +6,12 @@ const routes = [
     children: [
       { path: '',name:'Dashboard', component: () => import('pages/IndexPage.vue') },
       { path: '/user-management',name:'User Management', component: () => import('pages/UserManagement/IndexPage.vue') },
-    ]
+      { path: '/property-management',name:'Property Management', component: () => import('pages/PropertyManagement.vue') },
+      { path: '/target-sales',name:'Target Sales', component: () => import('pages/TargetSales.vue') },
+    ],
+    meta:{
+      requireAuth:true,
+    }
   },
   {
     path:'/auth',

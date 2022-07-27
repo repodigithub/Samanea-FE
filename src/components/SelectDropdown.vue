@@ -51,14 +51,6 @@ export default {
             type: Boolean,
             default: false
         },
-        isNormal:{
-            type:Boolean,
-            default:false
-        },
-        isSearchNormal:{
-            type:Boolean,
-            default:false
-        },
         isPageNormal:{
             type:Boolean,
             default:false
@@ -76,22 +68,16 @@ export default {
         const lastPage = ref(null)
         const optalt = []
         const isValid = ref(false)
+        console.log('props.selected',props.selected)
         getData(props.url,props.islogin)
         .then(res=>{
             dataOptions.value = res.data.data.data
             res.data.data.data.forEach((item)=>{
                 response = Object.values(item)
-                if(props.isNormal){
-                    optalt.push({
-                        label:`${response[1]} - ${response[2]}`,
-                        value:response[1],
-                    })
-                }else{
-                    optalt.push({
-                        label:response[1],
-                        value:response[1],
-                    })
-                }
+                optalt.push({
+                    label:response[1],
+                    value:response[0],
+                })
             })
             isValid.value = true
             nextPage.value = res.data.data.current_page + 1
@@ -112,23 +98,17 @@ export default {
                 loading.value = true
                 searchKey.value = val.toLowerCase()
                 options.value = []
-                searchUrl.value = props.isSearchNormal ? `?search=${searchKey.value}` : `&search=${searchKey.value}`
+                searchUrl.value = `?search=${searchKey.value}`
                 getData(props.url+searchUrl.value,props.islogin)
                 .then(res=>{
+                    dataOptions.value = res.data.data.data
                     update(()=>{
                         res.data.data.data.forEach((item)=>{
                             response = Object.values(item)
-                            if(props.isNormal){
-                                options.value.push({
-                                    label:`${response[1]} - ${response[2]}`,
-                                    value:response[1],
-                                })
-                            }else{
-                                options.value.push({
-                                    label:response[1],
-                                    value:response[1],
-                                })
-                            }
+                            options.value.push({
+                                label:response[1],
+                                value:response[0],
+                            })
                         })
                         nextPage.value = res.data.data.current_page + 1
                         lastPage.value = res.data.data.last_page
@@ -154,20 +134,14 @@ export default {
                 }
                 getData(localurl,props.islogin)
                 .then(res=>{
+                    dataOptions.value = res.data.data.data
                     nextTick( () => {
                         res.data.data.data.forEach((item)=>{
                             response = Object.values(item)
-                            if(props.isNormal){
-                                options.value.push({
-                                    label:`${response[1]} - ${response[2]}`,
-                                    value:response[1],
-                                })
-                            }else{
-                                options.value.push({
-                                    label:response[1],
-                                    value:response[1],
-                                })
-                            }
+                            options.value.push({
+                                label:response[1],
+                                value:response[0],
+                            })
                         })
                         lastPage.value= res.data.data.last_page
                         nextPage.value= res.data.data.current_page + 1
@@ -178,11 +152,8 @@ export default {
             }
         }
         function onSelected(val) {
-            let findX = dataOptions.value.find(e => e.id == val)
-            if(findX) {
-                context.emit('update', findX)
-            }
             context.emit('update:selected', val)
+            context.emit('onUpdatedSelected', dataOptions.value)
         }
 
         return {
